@@ -1,5 +1,6 @@
 # dp_crypto
 [![Language](https://img.shields.io/badge/Lang-Python-blue.svg)](https://www.python.org)
+
 Base64-based encryption oracle exploit for CVE-2017-9248 (Telerik UI for ASP.NET AJAX dialog handler)
 
 ## Overview
