@@ -6,7 +6,7 @@ Base64-based encryption oracle exploit for CVE-2017-9248 (Telerik UI for ASP.NET
 ## Overview
 ![dp_crypto screenshot](images/upload2_screenshot.png)
 
-This exploit attacks the vulnerable encryption to discover the dialog handler key for vulnerable versions of Telerik UI for ASP.NET AJAX, then provides an encrypted link which gives access to a file manager, and arbitrary file upload (e.g. web shell) if remote file permissions allow.
+This exploit attacks the vulnerable encryption to discover the dialog handler key for vulnerable versions of Telerik UI for ASP.NET AJAX, then provides an encrypted link which gives access to a file manager, and arbitrary file upload (e.g. web shell) if remote file permissions allow. Works up to and including version 2017.1.118
 
 ## Usage
 
@@ -30,7 +30,7 @@ To test all ascii characters set key_charset to: all, for upper case hex (e.g. m
 Maximum accuracy is out of 64 where 64 is the most accurate, however 9 will usually suffice.
 
 The following example should be sufficient to crack machine key and generate a valid file manager URL:
-./dp_crypto -k http://a/Telerik.Web.UI.DialogHandler.aspx 48 hex 9
+./dp_crypto -k http://fake.bao7uo.com/Telerik.Web.UI.DialogHandler.aspx 48 hex 9
 ```
 
 ## Example
