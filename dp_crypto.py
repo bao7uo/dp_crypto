@@ -2,6 +2,8 @@
 
 # Author: Paul Taylor / Foregenix Ltd
 
+# https://github.com/bao7uo/dp_crypto/blob/master/dp_crypto.py
+
 # dp_crypto - CVE-2017-9248 exploit
 # Telerik.Web.UI.dll Cryptographic compromise
 
