@@ -3,6 +3,9 @@
 
 Base64-based encryption oracle exploit for CVE-2017-9248 (Telerik UI for ASP.NET AJAX dialog handler)
 
+## Published on exploit-db
+- https://www.exploit-db.com/exploits/43873/
+
 ## Overview
 
 This exploit attacks the vulnerable encryption to discover the dialog handler key for vulnerable versions of Telerik UI for ASP.NET AJAX, then provides an encrypted link which gives access to a file manager, and arbitrary file upload (e.g. web shell) if remote file permissions allow. Works up to and including version 2017.1.118.
