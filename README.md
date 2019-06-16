@@ -22,7 +22,7 @@ This exploit attacks a weak encryption implementation to discover the dialog han
 ```
 $ python3 dp_crypto.py -h
 
-dp_crypto by / @bao7uo
+dp_crypto by Paul Taylor / @bao7uo
 CVE-2017-9248 - Telerik.Web.UI.dll Cryptographic compromise
 
 usage: dp_crypto.py [-h] {d,e,k,b,p} ...
