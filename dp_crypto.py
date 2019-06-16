@@ -317,10 +317,12 @@ def mode_b64d():
     print(base64.b64decode(args.parameter.encode()).decode())
     print("")
 
-epilog = "\ndp_crypto by Paul Taylor / Foregenix Ltd\nCVE-2017-9248 - " + \
+sys.stderr.write(
+              "\ndp_crypto by Paul Taylor / Foregenix Ltd\nCVE-2017-9248 - " +
               "Telerik.Web.UI.dll Cryptographic compromise\n\n"
+            )
 
-p = argparse.ArgumentParser(epilog=epilog)
+p = argparse.ArgumentParser()
 subparsers = p.add_subparsers()
 
 decrypt_parser = subparsers.add_parser('d', help='Decrypt a ciphertext')
@@ -337,7 +339,7 @@ brute_parser = subparsers.add_parser('k', help='Bruteforce key/generate URL')
 brute_parser.set_defaults(func=mode_brutekey)
 brute_parser.add_argument('url', action='store', type=str, help='Target URL')
 brute_parser.add_argument('-l', '--key-len', action='store', type=int, default=48, help='Len of the key to retrieve, default is 48')
-brute_parser.add_argument('-o', '--oracle', action='store', type=str, default='Index was outside the bounds of the array.', help='The oracle text to use, the default value is for english version, other languages may have other error message')
+brute_parser.add_argument('-o', '--oracle', action='store', type=str, default='Index was outside the bounds of the array.', help='OPTIONAL. The oracle text to use, the default value is for english version, other languages may have other error message')
 brute_parser.add_argument('-v', '--version', action='store', type=str, default='', help='Specify the version to use rather than iterating over all of them')
 brute_parser.add_argument('-c', '--charset', action='store', type=str, default='hex', help='Charset used by the key, can use all, hex, or user defined')
 brute_parser.add_argument('-a', '--accuracy', action='store', type=int, default=9, help='Maximum accuracy is out of 64 where 64 is the most accurate, \
@@ -352,4 +354,6 @@ decode_parser.set_defaults(func=mode_b64d)
 decode_parser.add_argument('parameter', action='store', type=str, help='Parameter to decode')
 
 args = p.parse_args()
-args.func()
+
+if len(sys.argv) > 2:
+    args.func()
