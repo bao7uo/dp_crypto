@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# Author: Paul Taylor
+# Author: Paul Taylor / @bao7uo
 
 # https://github.com/bao7uo/dp_crypto/blob/master/dp_crypto.py
 
@@ -322,7 +322,7 @@ def mode_b64d():
     print("")
 
 sys.stderr.write(
-              "\ndp_crypto by Paul Taylor\nCVE-2017-9248 - " +
+              "\ndp_crypto by Paul Taylor / @bao7uo\nCVE-2017-9248 - " +
               "Telerik.Web.UI.dll Cryptographic compromise\n\n"
             )
 
