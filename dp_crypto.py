@@ -51,16 +51,8 @@ def get_result(plaintext, key, session, pad_chars):
         else False
 
 def test_keychar(keychar, found, session, pad_chars):
-    base64chars = [
-                    "A", "Q", "g", "w", "B", "R", "h", "x", "C", "S", "i", "y",
-                    "D", "T", "j", "z", "E", "U", "k", "0", "F", "V", "l", "1",
-                    "G", "W", "m", "2", "H", "X", "n", "3", "I", "Y", "o", "4",
-                    "J", "Z", "p", "5", "K", "a", "q", "6", "L", "b", "r", "7",
-                    "M", "c", "s", "8", "N", "d", "t", "9", "O", "e", "u", "+",
-                    "P", "f", "v", "/"
-                  ]
+    base64chars = "AQgwBRhxCSiyDTjzEUk0FVl1GWm2HXn3IYo4JZp5Kaq6Lbr7Mcs8Ndt9Oeu+Pfv/"
 
-    duff = False
     accuracy_thoroughness_threshold = args.accuracy
     for bc in range(int(accuracy_thoroughness_threshold)):
                                                 # ^^ max is len(base64chars)
@@ -70,9 +62,8 @@ def test_keychar(keychar, found, session, pad_chars):
                       base64chars[0] * len(found) + base64chars[bc],
                       found + keychar, session, pad_chars
                       ):
-            duff = True
-            break
-    return False if duff else True
+            return False
+    return True
 
 
 def encrypt(dpdata, key):
