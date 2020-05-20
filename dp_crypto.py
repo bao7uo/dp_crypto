@@ -62,8 +62,8 @@ def test_keychar(keychar, found, session, pad_chars):
                       base64chars[0] * len(found) + base64chars[bc],
                       found + keychar, session, pad_chars
                       ):
-            return True
-    return False
+            return False
+    return True
 
 
 def encrypt(dpdata, key):
