@@ -196,7 +196,7 @@ def get_key(session, found):
 
 def mode_brutekey():
     session = requests.Session()
-    found = get_key(session, binascii.unhexlify(args.key_resume.encode()).decode())
+    found = get_key(session, binascii.unhexlify(args.resume_key.encode()).decode())
 
     if found == '':
         return
@@ -344,7 +344,7 @@ brute_parser.add_argument('-c', '--charset', action='store', type=str, default='
 brute_parser.add_argument('-a', '--accuracy', action='store', type=int, default=9, help='Maximum accuracy is out of 64 where 64 is the most accurate, \
     accuracy of 9 will usually suffice for a hex, but 21 or more might be needed when testing all ascii characters. Increase the accuracy argument if no valid version is found. OPTIONAL: default is 9.')
 # Credits to @alphaskade for key resume feature
-brute_parser.add_argument('-k', '--key-resume', action='store', type=str, default='', help='Specify a partial key to resume testing, or complete key to get the URL.')
+brute_parser.add_argument('-r', '--resume-key', action='store', type=str, default='', help='Specify a partial key to resume testing, or complete key to get the URL.')
 brute_parser.add_argument('-p', '--proxy', action='store', type=str, default='', help='Specify OPTIONAL proxy server, e.g. 127.0.0.1:8080')
 
 encode_parser = subparsers.add_parser('b', help='Encode parameter to base64')
