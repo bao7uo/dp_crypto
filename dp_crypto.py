@@ -196,7 +196,7 @@ def get_key(session, found):
 
 def mode_brutekey():
     session = requests.Session()
-    found = get_key(session, args.key_resume)
+    found = get_key(session, binascii.unhexlify(args.key_resume.encode()).decode())
 
     if found == '':
         return
