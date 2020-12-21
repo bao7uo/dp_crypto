@@ -119,9 +119,9 @@ def test_keypos(key_charset, unprintable, found, session):
     return False
 
 
-def get_key(session):
+def get_key(session, found):
     global char_requests
-    found = ''
+
     unprintable = False
 
     key_length = args.key_len
@@ -152,7 +152,7 @@ def get_key(session):
         ) +
         "]\n"
     )
-    for i in range(int(key_length)):
+    for i in range(len(found), int(key_length)):
         pos_str = (
             str(i + 1)
             if i > 8
@@ -196,7 +196,7 @@ def get_key(session):
 
 def mode_brutekey():
     session = requests.Session()
-    found = get_key(session)
+    found = get_key(session, args.key_resume)
 
     if found == '':
         return
@@ -343,6 +343,8 @@ brute_parser.add_argument('-v', '--version', action='store', type=str, default='
 brute_parser.add_argument('-c', '--charset', action='store', type=str, default='hex', help='Charset used by the key, can use all, hex, or user defined. OPTIONAL: default is hex')
 brute_parser.add_argument('-a', '--accuracy', action='store', type=int, default=9, help='Maximum accuracy is out of 64 where 64 is the most accurate, \
     accuracy of 9 will usually suffice for a hex, but 21 or more might be needed when testing all ascii characters. Increase the accuracy argument if no valid version is found. OPTIONAL: default is 9.')
+# Credits to @alphaskade for key resume feature
+brute_parser.add_argument('-k', '--key-resume', action='store', type=str, default='', help='Specify a partial key to resume testing, or complete key to get the URL.')
 brute_parser.add_argument('-p', '--proxy', action='store', type=str, default='', help='Specify OPTIONAL proxy server, e.g. 127.0.0.1:8080')
 
 encode_parser = subparsers.add_parser('b', help='Encode parameter to base64')
