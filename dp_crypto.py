@@ -123,6 +123,7 @@ def get_key(session, found):
     global char_requests
 
     unprintable = False
+    keychar = True
 
     key_length = args.key_len
     key_charset = args.charset
@@ -183,13 +184,7 @@ def get_key(session, found):
             sys.stdout.flush()
             break
     if keychar is not False:
-        print("Found key: " +
-              (
-                found
-                if unprintable is False
-                else "(hex) " + binascii.hexlify(found.encode()).decode()
-              )
-              )
+        print("Found key: (hex) " + binascii.hexlify(found.encode()).decode())
     print("Total web requests: " + str(requests_sent))
     return found
 
