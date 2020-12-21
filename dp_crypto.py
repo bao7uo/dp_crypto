@@ -336,7 +336,7 @@ encrypt_parser.add_argument('key', action='store', type=str, default='', help='K
 
 brute_parser = subparsers.add_parser('k', help='Bruteforce key/generate URL')
 brute_parser.set_defaults(func=mode_brutekey)
-brute_parser.add_argument('-u', '--url', action='store', type=str, help='Target URL')
+brute_parser.add_argument('-u', '--url', action='store', type=str, help='Target URL, e.g. https://???.???.???/Telerik.Web.UI.DialogHandler.aspx')
 brute_parser.add_argument('-l', '--key-len', action='store', type=int, default=48, help='Len of the key to retrieve, OPTIONAL: default is 48')
 brute_parser.add_argument('-o', '--oracle', action='store', type=str, default='Index was outside the bounds of the array.', help='The oracle text to use. OPTIONAL: default value is for english version, other languages may have other error message')
 brute_parser.add_argument('-v', '--version', action='store', type=str, default='', help='OPTIONAL. Specify the version to use rather than iterating over all of them')
