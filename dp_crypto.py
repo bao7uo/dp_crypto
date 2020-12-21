@@ -343,12 +343,12 @@ brute_parser.set_defaults(func=mode_brutekey)
 brute_parser.add_argument('-u', '--url', action='store', type=str, help='Target URL, e.g. https://???.???.???/Telerik.Web.UI.DialogHandler.aspx', required=True)
 brute_parser.add_argument('-l', '--key-len', action='store', type=int, default=48, help='Len of the key to retrieve, OPTIONAL: default is 48')
 brute_parser.add_argument('-o', '--oracle', action='store', type=str, default='Index was outside the bounds of the array.', help='The oracle text to use. OPTIONAL: default value is for english version, other languages may have other error message')
-brute_parser.add_argument('-v', '--version', action='store', type=str, default='', help='OPTIONAL. Specify the version to use rather than iterating over all of them')
+brute_parser.add_argument('-v', '--version', action='store', type=str, default='', help='OPTIONAL. Specify the version to use rather than testing the possibilities hardcoded within this exploit')
 brute_parser.add_argument('-c', '--charset', action='store', type=str, default='hex', help='Charset used by the key, can use all, hex, or user defined. OPTIONAL: default is hex')
 brute_parser.add_argument('-a', '--accuracy', action='store', type=int, default=9, help='Maximum accuracy is out of 64 where 64 is the most accurate, \
-    accuracy of 9 will usually suffice for a hex, but 21 or more might be needed when testing all ascii characters. Increase the accuracy argument if no valid version is found. OPTIONAL: default is 9.')
+    accuracy of 9 will usually suffice for a hex, but 21 or more might be needed when testing all ascii characters. Increase the accuracy argument if no valid version is found. OPTIONAL: default is 9')
 # Credits to @alphaskade for key resume feature
-brute_parser.add_argument('-r', '--resume-key', action='store', type=str, default='', help='Specify a partial key to resume testing, or complete key to get the URL.')
+brute_parser.add_argument('-r', '--resume-key', action='store', type=str, default='', help='Specify a partial key to resume testing, or complete key to get the URL')
 brute_parser.add_argument('-p', '--proxy', action='store', type=str, default='', help='Specify OPTIONAL proxy server, e.g. 127.0.0.1:8080')
 
 encode_parser = subparsers.add_parser('b', help='Encode parameter to base64')
