@@ -47,30 +47,24 @@ $ python3 dp_crypto.py k -h
 dp_crypto by Paul Taylor / @bao7uo
 CVE-2017-9248 - Telerik.Web.UI.dll Cryptographic compromise
 
-usage: dp_crypto.py k [-h] [-u URL] [-l KEY_LEN] [-o ORACLE] [-v VERSION]
-                      [-c CHARSET] [-a ACCURACY] [-p PROXY]
+usage: dp_crypto.py k [-h] -u URL [-l KEY_LEN] [-o ORACLE] [-v VERSION] [-c CHARSET] [-a ACCURACY] [-r RESUME_KEY] [-p PROXY]
 
 optional arguments:
   -h, --help            show this help message and exit
-  -u URL, --url URL     Target URL
+  -u URL, --url URL     Target URL, e.g. https://???.???.???/Telerik.Web.UI.DialogHandler.aspx
   -l KEY_LEN, --key-len KEY_LEN
                         Len of the key to retrieve, OPTIONAL: default is 48
   -o ORACLE, --oracle ORACLE
-                        The oracle text to use. OPTIONAL: default value is for
-                        english version, other languages may have other error
-                        message
+                        The oracle text to use. OPTIONAL: default value is for english version, other languages may have other error message
   -v VERSION, --version VERSION
-                        OPTIONAL. Specify the version to use rather than
-                        iterating over all of them
+                        OPTIONAL. Specify the version to use rather than iterating over all of them
   -c CHARSET, --charset CHARSET
-                        Charset used by the key, can use all, hex, or user
-                        defined. OPTIONAL: default is hex
+                        Charset used by the key, can use all, hex, or user defined. OPTIONAL: default is hex
   -a ACCURACY, --accuracy ACCURACY
-                        Maximum accuracy is out of 64 where 64 is the most
-                        accurate, accuracy of 9 will usually suffice for a
-                        hex, but 21 or more might be needed when testing all
-                        ascii characters. Increase the accuracy argument if no
-                        valid version is found. OPTIONAL: default is 9.
+                        Maximum accuracy is out of 64 where 64 is the most accurate, accuracy of 9 will usually suffice for a hex, but 21 or more might be needed
+                        when testing all ascii characters. Increase the accuracy argument if no valid version is found. OPTIONAL: default is 9.
+  -r RESUME_KEY, --resume-key RESUME_KEY
+                        Specify a partial key to resume testing, or complete key to get the URL.
   -p PROXY, --proxy PROXY
                         Specify OPTIONAL proxy server, e.g. 127.0.0.1:8080
 ```
