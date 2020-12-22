@@ -350,7 +350,7 @@ brute_parser.add_argument('-v', '--version', action='store', type=str, default='
 brute_parser.add_argument('-c', '--charset', action='store', type=str, default='hex', help='Charset used by the key, can use all, hex, printable, or user defined. OPTIONAL: default is hex')
 brute_parser.add_argument('-a', '--accuracy', action='store', type=int, default=9, help='Maximum accuracy is out of 64 where 64 is the most accurate (and slowest), \
     accuracy of 9 will usually suffice when defaulting to the hex charset, but 21 or more might be needed when the charset is set to all or printable. Increase the accuracy argument if no valid version is found. OPTIONAL: default is 9')
-# Credits to @alphaskade for key resume feature
+# Credits to @alphaskade and @AvalZ_ for key resume feature
 brute_parser.add_argument('-r', '--resume-key', action='store', type=str, default='', help='OPTIONAL. Specify a partial key to resume testing, or complete key to get the URL')
 brute_parser.add_argument('-p', '--proxy', action='store', type=str, default='', help='Specify OPTIONAL proxy server, e.g. 127.0.0.1:8080')
 
