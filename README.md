@@ -4,7 +4,7 @@
 Base64-based encryption oracle exploit for CVE-2017-9248 (Telerik UI for ASP.NET AJAX dialog handler)
 
 ## Published on exploit-db
-Update 2020 - Please note that the version on exploit-db is now very out of date.
+Update 2020 - Please note that the version on exploit-db is now very out of date compared to the latest version here on GitHub.
 - https://www.exploit-db.com/exploits/43873/
 
 ## See also
